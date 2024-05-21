@@ -1,0 +1,4 @@
+//for length of nums1
+    //check if nums1[m] > nums2[n]
+    //greater one goes into nums1[m+n]
+    //greater value's index gets decremented
