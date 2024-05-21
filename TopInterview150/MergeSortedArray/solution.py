@@ -8,7 +8,7 @@ class Solution(object):
                 i=0
             #if first array is finished, populate all the elements of the second
             elif m==0: 
-                for x in range(n,-1,-1):
+                for x in range(n,0,-1):
                     nums1[x-1] = nums2[x-1]
                 i=0
             elif nums1[m-1] > nums2[n-1]:
