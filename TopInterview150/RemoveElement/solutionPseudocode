@@ -1,0 +1,5 @@
+//iterate through array
+//if current != value
+    //assign it to the index of the counter (the next position != val)
+    //increment the counter
+//return the counter
