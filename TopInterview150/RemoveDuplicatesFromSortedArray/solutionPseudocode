@@ -1,0 +1,6 @@
+Start at index 1 (2nd element), iterate through end of array
+Create a counter = 1 (starting position)
+If current value != previous value
+    nums[counter] = nums[i]
+    counter++
+return counter
