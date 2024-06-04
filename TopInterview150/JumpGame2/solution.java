@@ -29,6 +29,46 @@ It's guaranteed that you can reach nums[n - 1].
 //start at [0], iterate until you find the first position [n] that can jump to n-1
 //increment a counter, rerun the method until you find the first position that can jump to this new position [n]
 
+//greedy BFS solution, fastest, uses more space
+class Solution {
+    public int jump(int[] nums) {
+        int target = nums.length, i = 0, maxReachable = 0, lastJumpedPos = 0, jumps = 0;
+        while (lastJumpedPos < target-1)//loop until end position is reached
+        {
+            if (nums[i]+i > maxReachable)//if we can reach further from this position
+            {
+                maxReachable = nums[i]+i;//update maxReachable
+            }
+            if (i == lastJumpedPos) {//if the current search has finished and maxReachable index found
+                lastJumpedPos = maxReachable;//jump to maxReachable
+                jumps++;//increment the numder of jumps
+            }
+            i++;
+        }
+        return jumps;
+    }
+}
+
+//recursive solution
+class Solution {
+    public int jump(int[] nums) {
+        return solve(nums.length-1, nums);
+    }
+    public int solve(int target, int[] nums)
+    {
+        if (target == 0) return 0;
+        for (int i = 0; i < target; i++)
+        {
+            if (i + nums[i] >= target)
+            {
+                return 1 + solve(i, nums);
+            }
+        }
+        return -1;
+    }
+}
+
+//iterative solution
 class Solution {
     public int jump(int[] nums) {
         int counter = 0;
