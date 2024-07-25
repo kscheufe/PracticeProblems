@@ -53,7 +53,62 @@ s and words[i] consist of lowercase English letters.
 
  class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
-        
+        List<Integer> output = new ArrayList<>();
+        int wordLength = words[0].length();
+        int numWords = words.length;
+        int concatLength = wordLength * numWords;
+        Map<String, Integer> wordCountTarget = new HashMap<>();
+        if (s == null || words == null || words.length == 0 || s.length() < concatLength) {
+            return output;
+        }
+        for (String word: words)
+        {//either increment the wordCount or add it to the list
+            wordCountTarget.put(word, wordCountTarget.getOrDefault(word, 0) +1);
+        }
+
+        for (int i = 0; i < wordLength; i++)//for each character in s
+        {
+            Map<String, Integer> currentCount = new HashMap<>();
+            int left = i;
+            int right = i;
+            int count = 0;//count of valid words in the current window
+
+            //slide the window right, over the string
+            while (right + wordLength <= s.length()) 
+            {
+                String word = s.substring(right, right + wordLength);
+                right += wordLength;
+
+                //if the current word is not in the map
+                if (!wordCountTarget.containsKey(word)) 
+                {
+                    currentCount.clear();//reset the currentCount map
+                    count = 0;//reset the count
+                    left = right;//set left pointer equal to right (since word @ right pointer is not in the list)
+                }
+                else//if it is in the list
+                {
+                    //add it to the current list or increment it
+                    currentCount.put(word, currentCount.getOrDefault(word, 0) + 1);
+                    count++;//increment count of valid words
+
+                    //if there are more occurrences of the word than expected
+                    while (currentCount.get(word) > wordCountTarget.get(word))
+                    {
+                        String leftWord = s.substring(left, left + wordLength); // Get the word at the left pointer
+                        currentCount.put(leftWord, currentCount.get(leftWord) - 1); // Decrement the count for this word
+                        count--; // Decrement the number of valid words
+                        left += wordLength; // Move the left pointer
+                    }
+
+                    if (count == numWords) //if the window contains exactly the correct amount of words
+                    {
+                        output.add(left);
+                    }
+                }
+            }
+        }
+        return output;
     }
 }
 
