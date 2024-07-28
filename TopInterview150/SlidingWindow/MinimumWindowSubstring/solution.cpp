@@ -71,7 +71,7 @@ public:
                     //calculate the new substr length and update if appropriate
                     if (right-left+1 < output.length() || output.length() ==0)
                     {
-                        output = s.substr(left, right-left+1)
+                        output = s.substr(left, right-left+1);
                     }
                 }
             }
