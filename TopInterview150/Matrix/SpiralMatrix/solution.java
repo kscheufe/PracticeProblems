@@ -26,7 +26,6 @@ class Solution {
         int length = matrix[0].length*matrix.length;
         int posX = 0;
         int posY = 0;
-        System.out.println(matrix[0][1]);
 
         for (int i = 0; i < length; i++)
         {
@@ -57,7 +56,6 @@ class Solution {
             }
             posX += dirX;
             posY += dirY;
-            System.out.println(posX + ", " + posY);
         }
 
         return output;
