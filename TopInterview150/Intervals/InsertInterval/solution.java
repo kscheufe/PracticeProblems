@@ -32,10 +32,56 @@ Constraints:
 0 <= intervals.length <= 10^4
 intervals[i].length == 2
 0 <= starti <= endi <= 10^5
-intervals is sorted by starti in ascending order.
+intervals is sorted by starting in ascending order.
 newInterval.length == 2
 0 <= start <= end <= 10^5
  */
+
+
+ /* this solution only iterates through the array once */
+ class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> res = new ArrayList<>();
+        int i = 0;//for indexing
+        int n = intervals.length;//for shorthand notation
+
+        //while new interval doesn't overlap
+        while (i < n && newInterval[0] > intervals[i][1])
+        {
+            res.add(intervals[i]);
+            i++;
+        }
+
+        //once it does overlap, every entry until intervals[i][1] > newInt[1] will overlap
+        while (i < n && newInterval[1] >= intervals[i][0])
+        {
+            newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
+            newInterval[1] = Math.max(intervals[i][1], newInterval[1]);
+            //these seem like they could add unnecessary calculations by continuously updating
+            i++;
+        }
+        res.add(newInterval);
+
+        //add the remaining elements
+        while (i < n)
+        {
+            res.add(intervals[i]);
+            i++;
+        }
+
+        //convert back to int[][]
+        int ans[][] = new int[res.size()][];
+        for (int j = 0; j < res.size(); j++)
+        {
+            ans[j] = res.get(j);
+        }
+
+        return ans;
+    }
+}
+
+
+ /* my solution that incrementally deals with all the hidden test case requirements
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
         int[][] newArr = new int[intervals.length+1][2];
@@ -95,6 +141,9 @@ class Solution {
             }
             return newArr;
         }
+
+
+
         else //if there is an overlap
         {
             int startValue = newInterval[0];
@@ -144,3 +193,4 @@ class Solution {
         }
     }
 }
+ */
