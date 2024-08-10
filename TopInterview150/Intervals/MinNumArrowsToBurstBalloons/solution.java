@@ -75,6 +75,33 @@ the next viable xstart we could find elements at, and only consider the
 elements after it during shot locating. additionally we could return when
 no balloons start after this pointer
   */
+
+  //solution with sorting, same thing but with much fewer checks
+  class Solution {
+    public int findMinArrowShots(int[][] points) {
+        Arrays.sort(points, (a, b) -> 
+            Integer.compare(a[1], b[1])//sorted by end position ASC
+        );
+
+        int arrowPoint = points[0][1]; //start shooting at the leftmost end
+        int count = 1;
+
+        for (int[] point: points) 
+        {
+            if (point[0] > arrowPoint /*|| point[1] < arrowPoint*/)
+            {
+                count++;
+                arrowPoint = point[1];
+            }
+        }
+        return count;
+
+    }
+  }
+
+  /* My solution without sorting the array, understandably slow since 
+     it requires you to recheck every element
+
 class Solution {
     public int findMinArrowShots(int[][] points) {
         int counter = 1;
@@ -106,4 +133,4 @@ class Solution {
 
         return counter;
     }
-}
+} */
