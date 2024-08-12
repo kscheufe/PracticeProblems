@@ -76,6 +76,8 @@ Constraints:
 path consists of English letters, digits, period '.', slash '/' or '_'.
 path is a valid absolute Unix path.
  */
+
+ //didn't realize you can legally iterate through a stack in an enhanced for loop, will create a faster algo tomorrow
 class Solution {
     public String simplifyPath(String path) {
         Stack<String> components = new Stack<>();
