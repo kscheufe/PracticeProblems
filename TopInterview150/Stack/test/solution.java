@@ -1,0 +1,1 @@
+This is a test of an automated script in powershell
