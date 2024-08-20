@@ -16,7 +16,7 @@ public:
                     num = num *10 + s[i]-'0';
                     i++;
                 }
-                i--;//revert one ++ from the while loop checking order
+                i--;//revert one ++ from the while loop's increments
                 sum += num * sign;
                 sign = 1;//reset sign
             }
@@ -29,6 +29,7 @@ public:
             else if (s[i] == ')')
             {
                 sum = st.top().first + st.top().second * sum;
+                //         number + sign * sum
                 st.pop();
             }
             else if (s[i] == '-')
