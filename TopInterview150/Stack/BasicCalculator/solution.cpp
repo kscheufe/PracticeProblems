@@ -1,5 +1,45 @@
 class Solution {
 public:
+    //faster solution
+    int calculate(string s) {
+        int sum = 0;
+        stack<pair<int, int>> st;
+        int sign = 1;
+        //for each char
+        for (int i = 0; i < s.size(); i++) 
+        {
+            if (isdigit(s[i])) 
+            {
+                int64_t num = 0;
+                while (i < s.size() && isdigit(s[i]))
+                {
+                    num = num *10 + s[i]-'0';
+                    i++;
+                }
+                i--;//revert one ++ from the while loop checking order
+                sum += num * sign;
+                sign = 1;//reset sign
+            }
+            else if (s[i] == '(')
+            {
+                st.push({sum, sign});//really, can't a negative value be pushed to a set?
+                sum = 0;
+                sign = 1;
+            }
+            else if (s[i] == ')')
+            {
+                sum = st.top().first + st.top().second * sum;
+                st.pop();
+            }
+            else if (s[i] == '-')
+            {
+                sign = -sign;
+            }
+        }
+        return sum;
+    }
+
+    /* //my solution from java
     int calculate(string s) {
         stack<string> st;
         string current = "";
@@ -94,4 +134,5 @@ public:
         }
         return "";//should never be reached
     }
+    */
 };
