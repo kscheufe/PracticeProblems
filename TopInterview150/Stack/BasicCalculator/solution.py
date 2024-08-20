@@ -27,3 +27,4 @@ class Solution(object):
                 result += stack.pop()
                 num = 0
         return result + num*signValue
+#testcommit
