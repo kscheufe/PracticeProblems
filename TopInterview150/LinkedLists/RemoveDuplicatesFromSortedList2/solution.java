@@ -44,7 +44,7 @@ class Solution {
         {
             iterator = iterator.next;
             
-            if (iterator == null)
+            if (iterator == null)//handles distinct final element
             {
                 if (!headSet) return prev;
                 prefix.next = prev;
@@ -58,25 +58,6 @@ class Solution {
                     prev = iterator;
                     iterator = iterator.next;//this will end at q, q, Q, W, w, both will advance once by next iteration
                 } 
-
-
-                /*
-                if (iterator != null)
-                {
-                    prev = iterator;
-                    iterator = iterator.next;//advance to q, q, q, W, W
-                }
-                //handle distinct final element
-                
-                if (iterator == null)
-                {                    
-                    if (headSet == false)
-                    {
-                        return null;
-                    }
-                    //prefix.next = prev;
-                    return head;
-                }  */
             }
             //if current and previous are distinct, add prev to prefix
             else if (prev.val != iterator.val)
@@ -102,7 +83,7 @@ class Solution {
     }
 }
 
-/* misunderstanding of the question
+/* misunderstanding of the question, so above solution is more optimal
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
         //num, counter
