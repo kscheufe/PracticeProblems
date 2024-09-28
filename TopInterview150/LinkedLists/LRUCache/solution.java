@@ -47,29 +47,147 @@ At most 2 * 10^5 calls will be made to get and put.
 public class ListNode {
     int key;
     int val;
-    ListNode next;
+    ListNode next = null;//by default
+    ListNode prev = null;//doubly LL, also null by default
     ListNode() {}
     ListNode(int key, int val) { this.key = key; this.val = val; }
-    ListNode(int key, int val, ListNode next) 
+    ListNode(int key, int val, ListNode next, ListNode prev) 
     { 
         this.key = key;
         this.val = val;
         this.next = next; 
+        this.prev = prev;
     }
 }
 //proper implementation
 class LRUCache {
-
+    int capacity;
+    int size = 0;
+    HashMap<Integer, ListNode> map = new HashMap<>();
+    ListNode head = null;
+    ListNode tail = null;
     public LRUCache(int capacity) {
-        
+        this.capacity = capacity;
     }
     
     public int get(int key) {
-        
+        if (head == null || !map.containsKey(key)) return -1;//handle empty list
+        //if it is in the list, update the pointers and return the value
+        ListNode temp = map.get(key);
+        if (temp == head)
+        {
+            return temp.val;
+        }
+        if (temp == tail)
+        {
+            tail = tail.prev;
+            tail.next = null;
+            temp.prev = null;
+            temp.next = head;
+            head.prev = temp;
+            head = temp;
+            return temp.val;
+        }
+        ListNode prevTemp = temp.prev;//break connections with prev
+        prevTemp.next = temp.next;
+        ListNode nextTemp = temp.next;
+        nextTemp.prev = temp.prev;//after this, node prev and next point to each other
+        temp.prev = null;
+        temp.next = head;//build connections with head
+        head.prev = temp;
+        head = temp;//set head
+        return temp.val;//temp might be wrong when i'm finished
     }
     
     public void put(int key, int value) {
-        
+        if (head == null) //handle first addition
+        {
+            head = new ListNode(key, value);//handle empty list
+            tail = head;
+            map.put(key, head);
+            size++;
+            return;
+        }
+        if (capacity == 1)//if only room for one, keep updating it
+        {
+            map.clear();//remove from hMap
+            head.key = key;//set new parameters of Node
+            head.val = value;
+            map.put(key, head);//add node back into hMap for get operations
+            return;
+        }
+
+        //otherwise, will need to lookup key to check for existance
+        if (map.containsKey(key))//if found, move to front
+        {
+            ListNode temp = map.get(key);
+            if (temp == head)
+            {
+                temp.val = value;
+                return;
+            }
+            if (temp == tail)//handle moving last element
+            {
+                tail = temp.prev;//update tail to point one backwards
+                tail.next = null;
+                temp.prev = null;//updating pointers 
+                temp.next = head;
+                head.prev = temp;
+                head = temp;
+                temp.val = value;//update val;
+                map.put(key, temp);//set the value in hMap
+                return;
+            }
+            //if found in the middle somewhere
+            ListNode prevTemp = temp.prev;
+            ListNode nextTemp = temp.next;
+            prevTemp.next = nextTemp;
+            nextTemp.prev = prevTemp;
+            temp.prev = null;
+            temp.next = head;
+            head.prev = temp;
+            head = temp;
+            temp.val = value;
+            map.put(key, temp);
+            return;
+            
+        }
+        else
+        {
+            if (size == capacity)
+            {
+                map.remove(tail.key);//remove tail from hMap
+                tail = tail.prev;//remove tail node from LL, updating tail pointer
+                tail.next = null;
+                ListNode temp = new ListNode(key, value);
+                temp.next = head;//set new pointers
+                head.prev = temp;
+                head = temp;
+                map.put(key, temp);//add new Node to hMap
+            }
+            else 
+            {
+                ListNode temp = new ListNode(key, value);
+                temp.next = head;
+                head.prev = temp;
+                head = temp;
+                map.put(key, temp);
+                size++;
+            }
+        }
+            //else
+                // if size == cap
+                    //tail = tail.prev;
+                    //remove last node from hMap
+                    //add new node to hMap
+                    //remove last node (tail.next == null)
+                //else
+                    //temp = new ListNode(key, value);
+                    //temp.next = head;
+                    //head = temp;
+                    //size++;
+
+
     }
 }
 
