@@ -42,32 +42,19 @@ p and q will exist in the tree
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) return null;
-        //check below first
+        //check below first (work from bottom up)
         TreeNode tempR = lowestCommonAncestor(root.right, p, q);//take on pointer to p or q, or null
         TreeNode tempL = lowestCommonAncestor(root.left, p, q);
         //will be null if not found, or the node if found
 
+        if (root == p) return p;//return p upwards
+        if (root == q) return q;//return q upwards (to temp)
 
-        if (root == p && p != null)//handles leaves
-        { 
-            //first search down for q
-            if (q == lowestCommonAncestor(root.right, p, q) ||
-                q == lowestCommonAncestor(root.left, p, q))
-            {
-                return root;
-            }
-            else return p;
-        }
-        if (root == q && q != null) 
-        { 
-            //first search down for p
-            if (p == lowestCommonAncestor(root.right, p, q) ||
-                p == lowestCommonAncestor(root.left, p, q))
-            {
-                return root;
-            }
-            else return q;
-        }
+        /*this is lucky as well, if both are in the same path, it will be
+        returning q, q, q, p, p for example, with p being higher in the
+        tree. The temps will never both be true, and it will just return
+        p all the way*/
+
 
         if (tempL != null && tempR != null)//found both below
             return root;
@@ -75,13 +62,6 @@ class Solution {
             return tempL;
         if (tempR != null)
             return tempR;
-        return null;//if nothing is found below and current is not one of tehm
-
-        
-//search all nodes downwards until both are found
-        //once both are found, rebuild the tree upwards, returning true on each side
-        //once a node receives two trues from the left and right branches (or itself), return that node
-
-        
+        return null;//if nothing is found below and current is not one of them
     }
 }    
