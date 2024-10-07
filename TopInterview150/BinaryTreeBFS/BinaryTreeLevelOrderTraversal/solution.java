@@ -54,6 +54,7 @@ class Solution {
             for (int i = 1; i <= currSize; i++)
             {
                 TreeNode curr = queue.remove();
+                currList.add(curr.val);
                 if (i == currSize) output.add(currList);
 
                 if (curr.left != null) queue.add(curr.left);
