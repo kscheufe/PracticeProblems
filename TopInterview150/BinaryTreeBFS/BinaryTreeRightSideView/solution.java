@@ -37,6 +37,34 @@ The number of nodes in the tree is in the range [0, 100].
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> output = new LinkedList<>();
+        if (root == null) return output;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        int counter;
+        while (!queue.isEmpty())
+        {
+            //get initial number of elements
+            counter = queue.size();
+
+            for (int i = 1; i <= counter; i++)
+            {
+                TreeNode curr = queue.remove();
+                if (i == counter)//if the last element of the row
+                    output.add(curr.val);
+                
+                if (curr.left != null) queue.add(curr.left);
+                if (curr.right != null) queue.add(curr.right);//add children
+            }
+        }
+        return output;
+    }
+}
+ /*DFS Solution
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> output = new LinkedList<>();
         findRightMostChild(root, 0, output);
         return output;
     }
@@ -51,4 +79,4 @@ class Solution {
         findRightMostChild(root.right, height + 1, output);
         findRightMostChild(root.left, height+1, output);
     }
-}
+} */
