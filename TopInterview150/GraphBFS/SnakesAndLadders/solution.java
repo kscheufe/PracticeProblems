@@ -43,9 +43,63 @@ The squares labeled 1 and n2 are not the starting points of any snake or ladder.
 */
 import java.util.*;
 
+class Solution {
+    public int snakesAndLadders(int[][] board)
+    {
+        int n = board.length;
+        boolean[] visited = new boolean[n*n + 1];//0th index isn't used
+        Queue<int[]> queue = new LinkedList<>();
+
+        queue.add(new int[]{1, 0});
+        visited[1] = true;
+
+        while (!queue.isEmpty())
+        {
+            int[] current = queue.poll();
+            int currentSquare = current[0];
+            int moves = current[1];
+
+            if (currentSquare == n*n) return moves;
+
+            for (int i = 6; i > 0; i--)//slightly prioritize higher roles
+            {
+                int nextSquare = currentSquare + i;
+                if (nextSquare >= n*n) return moves+1;//found exit
+                int row = getRow(nextSquare, n);
+                int col = getCol(nextSquare, n);
+
+                if (board[row][col] != -1)//snake or ladder
+                {
+                    if (board[row][col] == n*n) return moves+1;
+                    nextSquare = board[row][col];
+                }
+
+                //if not visited, add to queue
+                if (!visited[nextSquare]) {
+                    visited[nextSquare] = true;
+                    queue.add(new int[]{nextSquare, moves+1});
+                }
+            }
+        }
+        return -1;//no path
+    }
+    public int getRow(int squareNum, int sideLength) {
+        return sideLength - 1 - (squareNum-1)/sideLength; //get row index
+    }
+    public int getCol(int squareNum, int sideLength) {
+        int row = getRow(squareNum, sideLength);
+        int col = (squareNum - 1) % sideLength;
+        if ((sideLength - 1 - row) % 2 == 1) //check if we are in even row
+        {
+            col = sideLength - 1 - col;//reverse every other row for boustrephodon
+        }
+        return col;
+    }
+}
 
 
 
+/*
 //priority queue and heuristic solution/ ML way
 class Solution {
     public int snakesAndLadders(int[][] board) {
@@ -120,4 +174,4 @@ class Solution {
         }
         return col;
     }
-}
+} */
