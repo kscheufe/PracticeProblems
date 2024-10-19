@@ -77,17 +77,43 @@ class Solution {
             {
                 String curr = queue.poll();
 
+                char[] word = curr.toCharArray();//why?
+
+                //only checks a-z
+                //also removes seen strings from valid set
+                for (int j = 0; j < word.length; j++)
+                {
+                    char originalChar = word[j];
+                    for (char c = 'a'; c <= 'z'; c++)
+                    {
+                        if (word[j] == c) continue;//if same string
+
+                        word[j] = c;//check next mutation
+                        String newWord = String.valueOf(word);
+
+                        //return ans if found
+                        if (newWord.equals(endWord)) return wordsInChanges+1;
+                        if (validStrings.contains(newWord)) 
+                        {
+                            queue.offer(newWord);
+                            validStrings.remove(newWord);
+                        }
+                    }
+                    word[j] = originalChar;
+                }
+
+               /*
                 // if you find it
                 if (curr.equals(endWord)) return wordsInChanges;
 
-                for (String word : wordList)
+                for (String word : wordList)//here, faster implementations check a-z for each index to see if it's a valid mutation and if it's in the list
                 {
                     if (!visitedStrings.contains(word) && validMutation(curr, word))
                     {
                         visitedStrings.add(word);
                         queue.add(word);
                     }
-                }
+                } */
             }
 
             wordsInChanges++;
