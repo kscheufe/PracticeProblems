@@ -80,7 +80,7 @@ class Solution {
         if (expression.charAt(0) == '-') expression = '0' + expression;
         char[] charArray = expression.toCharArray();
         int operand1 = 0;
-        int operand2 = 0;;
+        int operand2 = 0;
         char operation = 'p';//placeholder, cannot be empty
         for (int i = 0; i < charArray.length; i++)
         {
