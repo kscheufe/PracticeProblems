@@ -28,8 +28,33 @@ Either x is not zero or n > 0.
  */
 class Solution {
     public double myPow(double x, int n) {
+        if (n == 0) return 1;//handle base case
+
+        long exp = n;
+        if (exp < 0) {//handle negative
+            x = 1/x;
+            exp *= -1;
+        }
+
+        double result = 1.0;//handle regular function using binary exponentiation
+        while (exp > 0) {
+            if (exp % 2 == 1)//if exp becomes odd during division, (decimals will be dropped thanks to long/integer division)
+            {
+                result *= x;//multiply current binary exponent (1, 2, 4, 8, ...)
+            }
+            x *= x;//exponentially reduce exponent by squaring base
+            exp /= 2;//halve base
+        }
+
+        return result;
+    }
+}
+
+/* slower solution, first pass
+class Solution {
+    public double myPow(double x, int n) {
         if (x == 1) return 1;
-        if (x == -1) {
+        if (x==-1) {
             if (n % 2 == 0) return 1;
             return -1;
         }
@@ -47,3 +72,4 @@ class Solution {
         return base;
     }
 }
+ */
