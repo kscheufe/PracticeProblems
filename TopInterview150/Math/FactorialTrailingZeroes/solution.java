@@ -33,19 +33,39 @@ class Solution {
         //5-9 has 1
         //10-14 has 2
         //15-19 have 3
-        //20- have 4
-        for (int i = 10; i > -1; i--)
+        //20 has 4
+        //25 has 6 (looking for how many factors of 5 there are)
+        //10 000  3125, 625, 125, 25, 5
+        int zeroes = 0;
+        while (n > 0)
         {
-            System.out.println(factorial(i));
+            if (n >= 3125)
+            {
+                zeroes += 781;
+                n -= 3125;
+            }
+            else if (n >= 625)
+            {
+                zeroes += 156;
+                n -= 625;
+            }
+            else if (n >= 125)
+            {
+                zeroes += 31;
+                n -= 125;
+            }
+            else if (n >= 25)
+            {
+                zeroes += 6;
+                n -= 25;
+            }
+            else if (n >= 5) 
+            {
+                zeroes += 1;
+                n-=5;
+            }
+            else break;
         }
-    }
-    public static long factorial(int number) {
-        long result = 1;
-
-        for (int factor = 2; factor <= number; factor++) {
-            result *= factor;
-        }
-
-        return result;
+        return zeroes;
     }
 }
