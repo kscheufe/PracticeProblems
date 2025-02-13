@@ -29,6 +29,18 @@ complexity?
  */
 class Solution {
     public int trailingZeroes(int n) {
+        int zeroes = 0;
+        zeroes += n / 5;
+        zeroes += n/25;
+        zeroes += n/125;
+        zeroes += n/625;
+        zeroes += n/3125;
+        return zeroes;
+    }
+}
+/*
+class Solution {
+    public int trailingZeroes(int n) {
         //0-4 no trailing zeros
         //5-9 has 1
         //10-14 has 2
@@ -69,3 +81,4 @@ class Solution {
         return zeroes;
     }
 }
+ */
