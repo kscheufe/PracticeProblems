@@ -70,8 +70,6 @@ Average selling price for product 2 = ((200 * 15) + (30 * 30)) / 230 = 16.96
 */
 
 
-#AVG(u.units * p.price) as average_price 
-#sum(units) as total_units, sum(total_paid)
 
 
 /*
