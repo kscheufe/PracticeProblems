@@ -52,6 +52,16 @@ The customer id 4 has a first order with delivery id 7 and it is immediate.
 Hence, half the customers have immediate first orders.
 */
 
+#after recognizing that the earlist order date will have the earliest preferred delivery date
+Select ROUND(AVG(order_date = customer_pref_delivery_date) * 100, 2) as immediate_percentage
+from (
+    select 
+        Min(order_date) as order_date,
+        Min(customer_pref_delivery_date) as customer_pref_delivery_date    
+    from Delivery
+    group by customer_id
+) as t1
+
 #first complete solution
 select ROUND(AVG(order_date = customer_pref_delivery_date) * 100, 2) as immediate_percentage
 FROM (
