@@ -45,13 +45,35 @@ Output:
 +----------+---------+-------------+----------------+--------------------+-----------------------+
 */
 
-SELECT DATE_FORMAT(trans_date, '%Y-%m') AS month FROM Transactions;
+#SELECT DATE_FORMAT(trans_date, '%Y-%m') AS month FROM Transactions;
 
-
+#even faster
 select 
     DATE_FORMAT(trans_date, '%Y-%m') AS month,
     country, 
-    Count(*) as trans_count, 
+    Count(*) as trans_count,
+    sum(state='approved') as approved_count, 
+    Sum(amount) as trans_total_amount, 
+    Sum(if(state='approved', amount, 0)) as approved_total_amount
+from Transactions
+group by country, month
+
+#slightly faster
+select 
+    DATE_FORMAT(trans_date, '%Y-%m') AS month,
+    country, 
+    Count(*) as trans_count,
+    sum(state='approved') as approved_count, 
+    Sum(amount) as trans_total_amount, 
+    Sum(CASE WHEN state='approved' then amount else 0 end) as approved_total_amount
+from Transactions t 
+group by country, month
+
+#first
+select 
+    DATE_FORMAT(trans_date, '%Y-%m') AS month,
+    country, 
+    Count(*) as trans_count,
     sum(CASE WHEN state='approved' then 1 else 0 end) as approved_count, 
     Sum(amount) as trans_total_amount, 
     Sum(CASE WHEN state='approved' then amount else 0 end) as approved_total_amount
