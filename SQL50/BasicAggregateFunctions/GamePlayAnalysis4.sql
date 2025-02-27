@@ -47,6 +47,20 @@ Only the player with id 1 logged back in after the first day he had
 logged in so the answer is 1/3 = 0.33
 */
 
+#second solution, much faster
+select Round(count(distinct player_id) / (
+    select count(distinct player_id) From Activity
+), 2) as fraction
+From activity
+where (player_id, Date_sub(event_date, interval 1 day))# where a row exists that has a same id as in the original table, and a login date one day later
+IN (
+    select player_id, min(event_date) as first_login
+    from activity
+    group by player_id
+)
+
+
+#first solution, pretty slow
 with t as (
     Select 
         player_id, 
