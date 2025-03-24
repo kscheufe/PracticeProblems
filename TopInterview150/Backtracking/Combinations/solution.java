@@ -31,6 +31,47 @@ class Solution {
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> result = new ArrayList<>();
         List<Integer> comb = new ArrayList<>();
+
+        backtrack(result, comb, n, k, 1);
+        return result;
+    }
+
+    public void backtrack(
+        List<List<Integer>> result, 
+        List<Integer> comb, 
+        int n, 
+        int k, 
+        int start
+    ) {
+        if (comb.size() == k)
+        {
+            result.add(new ArrayList<>(comb));
+            return;
+        }
+        
+        for (int i = start; i <= n; i++) {
+            comb.add(i);
+            backtrack(result, comb, n, k, i+1);
+            comb.remove(comb.size()-1);
+        }
+    }
+
+    /*
+        1, 2, 3
+        1, 2, 4
+        1, 2, 5
+        1, 3, 4
+        1, 3, 5
+        1, 4, 5
+        2, 3, 4
+
+    */
+
+
+    /*
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> comb = new ArrayList<>();
         backtrack(result, n, k, 1, comb);
 
         return result;
@@ -47,5 +88,5 @@ class Solution {
             backtrack(result, n, k, i+1, comb);
             comb.remove(comb.size()-1);
         }
-    }
+    } */
 }
