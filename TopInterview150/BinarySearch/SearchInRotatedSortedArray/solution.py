@@ -26,7 +26,7 @@ class Solution(object):
                     l = index +1
             else:
                 if nums[index] <= target and target <= nums[r]:
-                    1 = index+1
+                    l = index+1
                 else:
                     r = index-1
         return -1
