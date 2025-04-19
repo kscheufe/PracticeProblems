@@ -11,10 +11,10 @@ class Solution {
                 int m = l+(r-l)/2;
 
                 if (m == 0 || nums[m] < nums[m-1])
-                    return nums[m];
+                    {return nums[m];}
 
-                if (nums[m] > nums[l]) l = m+1;
-                else r = m-1;
+                if (nums[m] < nums[r]) {r = m-1;}
+                else l = m+1;
             }
 
             return nums[r];
