@@ -57,7 +57,7 @@ class Solution {
             if (nums[mid] >= nums[l]) l = mid + 1;
             else r = mid -1;
         }
-        return -1;//should never be reached
+        return -1;//should never be reached = test
     }
 }
 /**
