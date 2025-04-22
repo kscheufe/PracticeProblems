@@ -11,7 +11,7 @@ class Solution(object):
         if nums[r] > nums[r-1]:
             return r
         
-        while l < r:
+        while l <= r:
             if l==r:
                 return l
             index = l + (r-l)/2
